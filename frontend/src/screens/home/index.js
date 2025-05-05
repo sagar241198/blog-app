@@ -87,7 +87,7 @@ export default function HomePage() {
                 </Typography>
                 <Box container spacing={4} display="flex" justifyContent="space-between" flexWrap="wrap">
                     {dummyBlogs.map((blog, idx) => (
-                        <Grid item key={idx} xs={12} md={6} sx={{ maxWidth: "350px", mt:2 }}>
+                        <Grid item key={idx} xs={12} md={6} sx={{ maxWidth: "350px", mt:2,margin:"auto" }}>
                             <Card
 
                                 sx={{
