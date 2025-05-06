@@ -24,14 +24,16 @@ import AppRegistrationSharpIcon from '@mui/icons-material/AppRegistrationSharp';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/auth';
 
-const Sidebar = ({ openMenu, setOpenMenu }) => {
-    const [activeOption, setActiveOption] = React.useState("/");
+const Sidebar = ({
+    openMenu,
+    setOpenMenu,
+    handleNavigation,
+    setActiveOption,
+    activeOption
+}) => {
     const { auth, setAuth } = useAuthContext();
     const navigate = useNavigate();
 
-    const handleNavigate = (path) => {
-        navigate(path);
-    }
 
     React.useEffect(() => {
         setActiveOption(window.location.pathname)
@@ -63,19 +65,19 @@ const Sidebar = ({ openMenu, setOpenMenu }) => {
                 <List>
                     <ListItem button selected
                         sx={{ background: activeOption == "/" ? "lightgray" : "none" }}
-                        onClick={() => handleNavigate('/')}>
+                        onClick={() => handleNavigation('/')}>
                         <ListItemIcon><Home /></ListItemIcon>
                         <ListItemText primary="Home" />
                     </ListItem>
                     <ListItem button
                         sx={{ background: activeOption == "/blogs" ? "lightgray" : "none" }}
-                        onClick={() => handleNavigate('/blogs')}>
+                        onClick={() => handleNavigation('/blogs')}>
                         <ListItemIcon><SourceSharpIcon /></ListItemIcon>
                         <ListItemText primary="Blogs" />
                     </ListItem>
                     <ListItem button
                         sx={{ background: activeOption == "/your-blogs" ? "lightgray" : "none" }}
-                        onClick={() => handleNavigate('/your-blogs')}>
+                        onClick={() => handleNavigation('/your-blogs')}>
                         <ListItemIcon><ListAltSharpIcon /></ListItemIcon>
                         <ListItemText primary="Your Blogs" />
                     </ListItem>
@@ -92,7 +94,7 @@ const Sidebar = ({ openMenu, setOpenMenu }) => {
                         <>
                             <ListItem button
                                 sx={{ background: activeOption == "/account" ? "lightgray" : "none" }}
-                                onClick={() => handleNavigate('/account')}
+                                onClick={() => handleNavigation('/account')}
                             >
                                 <ListItemIcon><AccountCircleSharpIcon /></ListItemIcon>
                                 <ListItemText primary="Account" />
@@ -106,14 +108,14 @@ const Sidebar = ({ openMenu, setOpenMenu }) => {
                         <>
                             <ListItem button
                                 sx={{ background: activeOption == "/login" ? "lightgray" : "none" }}
-                                onClick={() => handleNavigate('/login')}
+                                onClick={() => handleNavigation('/login')}
                             >
                                 <ListItemIcon><LockOpenSharpIcon /></ListItemIcon>
                                 <ListItemText primary="Sign In" />
                             </ListItem>
                             <ListItem button
                                 sx={{ background: activeOption == "/signup" ? "lightgray" : "none" }}
-                                onClick={() => handleNavigate('/signup')}
+                                onClick={() => handleNavigation('/signup')}
                             >
                                 <ListItemIcon><AppRegistrationSharpIcon /></ListItemIcon>
                                 <ListItemText primary="Sign Up" />

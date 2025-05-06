@@ -19,6 +19,7 @@ import axios from "axios";
 import { useAuthContext } from "../../context/auth";
 import { useNavigate } from "react-router-dom";
 import AlertSnackbar from "../../components/generic/alert";
+import { useProgress } from "../../context/progress";
 
 
 
@@ -26,6 +27,7 @@ export default function LoginPage() {
 
     const [fields, setFields] = React.useState({ email: 'sagar@gmail.com', password: 'sagar@123' });
     const { setAuth } = useAuthContext();
+    const { setProgress } = useProgress();
     const navigate = useNavigate();
     const [openAlert, setOpenAlert] = React.useState({
         open: false,
@@ -34,17 +36,21 @@ export default function LoginPage() {
     });
 
     const login = () => {
-        axios.post(BACKEND_URl + 'login', fields).then(data => {
 
+        setProgress(true);
+        axios.post(BACKEND_URl + 'login', fields).then(data => {
             if (data.status === 200 && data.data) {
                 setOpenAlert((pre => ({ ...pre, open: true, message: 'login success', severity: 'success' })));
                 setAuth(data.data);
-                sessionStorage.setItem('loggedInUser',JSON.stringify(data.data));
+                sessionStorage.setItem('loggedInUser', JSON.stringify(data.data));
                 setTimeout(() => {
+                    setProgress(false);
                     navigate('/');
                 }, 2000);
             }
         }).catch(e => {
+            setProgress(false);
+
             setOpenAlert((pre => ({ ...pre, open: true, message: e.response.data.message, severity: 'success' })));
         });
     }
@@ -60,7 +66,7 @@ export default function LoginPage() {
                     <Typography component="h1" variant="h5" fontWeight="bold" color="white">
                         Login to Your Account
                     </Typography>
-                    <Box component="form" noValidate sx={{ mt: 2 }}>
+                    <Box component="form" noValidate>
                         <InputField label="Enter Email" setFields={setFields} field='email' fields={fields} />
                         <InputField label="Enter Password" setFields={setFields} field='password' fields={fields} />
                         <Button

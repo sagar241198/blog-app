@@ -8,6 +8,7 @@ import ResponsiveAppBar from "../../container/header";
 import { Footer } from "../../container/footer";
 import { Box } from "@mui/material";
 import AccountPage from "../../screens/account";
+import CreatePost from "../../screens/blogs/create-blog";
 
 
 const AppRoutes = () => {
@@ -23,6 +24,8 @@ const AppRoutes = () => {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/blogs" element={<BlogPage />} />
                         <Route path="/your-blogs" element={<BlogPage />} />
+                        <Route path="/add-post" element={<CreatePost />} />
+
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/signup" element={<RegisterPage />} />
                         <Route path="/account" element={<AccountPage />} />

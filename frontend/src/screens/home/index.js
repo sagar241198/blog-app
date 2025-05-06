@@ -14,6 +14,7 @@ import {
     IconButton,
 } from "@mui/material";
 import { Comment as CommentIcon, Edit as EditIcon } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const dummyBlogs = [
     {
@@ -50,6 +51,8 @@ const dummyBlogs = [
 
 export default function HomePage() {
 
+    const navigate = useNavigate();
+
 
     return (
         <>
@@ -72,7 +75,12 @@ export default function HomePage() {
                     <Typography variant="h6" gutterBottom>
                         Explore inspiring stories, share your thoughts, and join the community!
                     </Typography>
-                    <Button variant="contained" color="secondary" size="large" startIcon={<EditIcon />}>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        size="large"
+                        onClick={() => navigate('/add-post')}
+                        startIcon={<EditIcon />}>
                         Write a Blog
                     </Button>
                 </Container>
@@ -81,13 +89,13 @@ export default function HomePage() {
             <Divider sx={{ my: 2 }} />
 
             {/* Recent Blogs */}
-            <Box sx={{m:2}}>
+            <Box sx={{ m: 2 }}>
                 <Typography variant="h5" gutterBottom>
                     📚 Latest Blogs
                 </Typography>
                 <Box container spacing={4} display="flex" justifyContent="space-between" flexWrap="wrap">
                     {dummyBlogs.map((blog, idx) => (
-                        <Grid item key={idx} xs={12} md={6} sx={{ maxWidth: "350px", mt:2,margin:"auto" }}>
+                        <Grid item key={idx} xs={12} md={6} sx={{ maxWidth: "350px", mt: 2, margin: "auto" }}>
                             <Card
 
                                 sx={{

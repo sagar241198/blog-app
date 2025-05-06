@@ -18,10 +18,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AlertSnackbar from "../../components/generic/alert";
 import { validateEmptyFileds } from "./utils";
+import { useProgress } from "../../context/progress";
 
 
 
 export default function LoginPage() {
+    const { setProgress } = useProgress();
+
 
     const [fields, setFields] = React.useState({
         name: '',
@@ -37,6 +40,7 @@ export default function LoginPage() {
     });
 
     const submit = () => {
+        setProgress(true);
         const { confirmPassword, ...rest } = fields;
         const hasError = validateEmptyFileds(fields)
         if (hasError) {
@@ -45,6 +49,7 @@ export default function LoginPage() {
                 message: hasError,
                 severity: 'errror'
             })));
+            setProgress(false);
             return;
         }
         axios.post(BACKEND_URl + 'register', rest).then(data => {
@@ -55,10 +60,13 @@ export default function LoginPage() {
                     severity: 'success'
                 })));
                 setTimeout(() => {
+                    setProgress(false);
+
                     navigate('/login');
                 }, 2000);
             }
         }).catch(e => {
+            setProgress(false);
             setOpenAlert((pre => ({
                 ...pre,
                 open: true,

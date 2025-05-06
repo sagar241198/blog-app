@@ -39,10 +39,19 @@ function ResponsiveAppBar() {
     const navigate = useNavigate();
     const { auth } = useAuthContext();
     const [openMenu, setOpenMenu] = React.useState(false);
+    const [activeOption, setActiveOption] = React.useState("/");
+
 
     const handleOpenNavMenu = (event) => {
         setOpenMenu(!openMenu);
     };
+
+    const handleNavigation = (url) => {
+        setActiveOption(url);
+        navigate(url);
+        setOpenMenu(false);
+
+    }
 
     return (
         <>
@@ -69,7 +78,7 @@ function ResponsiveAppBar() {
                             {pages.map((page) => (
                                 <Button
                                     key={page}
-                                    onClick={() => navigate(page.url)}
+                                    onClick={() => handleNavigation(page.url)}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
                                     {page.lable}
@@ -79,14 +88,14 @@ function ResponsiveAppBar() {
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                             {!auth ? (
                                 <>
-                                    <Typography component='span' sx={{ mr: 1 }} onClick={() => navigate('/login')}>Sign In</Typography>
+                                    <Typography component='span' sx={{ mr: 1 }} onClick={() => handleNavigation('/login')}>Sign In</Typography>
                                     <span>|</span>
-                                    <Typography component='span' sx={{ ml: 1 }} onClick={() => navigate('/signup')}>Sign Up</Typography>
+                                    <Typography component='span' sx={{ ml: 1 }} onClick={() => handleNavigation('/signup')}>Sign Up</Typography>
                                 </>
                             ) : (
                                 <>
-                                    <Typography button component='li' sx={{ listStyle:'none', mr:1,cursor:'pointer' }} onClick={() => navigate('/account')}>Account</Typography>
-                                    <Typography button component='button' sx={{ mr: 1 }} onClick={() => navigate('/login')}>Logout</Typography>
+                                    <Typography button component='li' sx={{ listStyle: 'none', mr: 1, cursor: 'pointer' }} onClick={() => navigate('/account')}>Account</Typography>
+                                    <Typography button component='button' sx={{ mr: 1 }} onClick={() => handleNavigation('/login')}>Logout</Typography>
                                 </>
                             )}
 
@@ -95,7 +104,12 @@ function ResponsiveAppBar() {
                 </Container>
             </AppBar>
 
-            <SidebarMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />
+            <SidebarMenu
+                openMenu={openMenu}
+                setOpenMenu={setOpenMenu}
+                activeOption={activeOption}
+                setActiveOption={setActiveOption}
+                handleNavigation={handleNavigation} />
 
         </>
     );

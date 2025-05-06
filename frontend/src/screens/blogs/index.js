@@ -171,10 +171,10 @@ export default function BlogPage() {
                             </div>))}
                         </Grid>
                         {allPost.length == 0 && (
-                            <>
-                                <img src={EmptyPostIcon} alt="no blogs!" width={'100%'} />
+                            <div style={{minHeight:'400px'}}>
+                                <img src={EmptyPostIcon} alt="no blogs!" width={'100%'} height={'100%'} />
                                 <Typography>No Blogs avialabe</Typography>
-                            </>
+                            </div>
                         )}
                     </Box>
                 </Container>
