@@ -38,22 +38,68 @@ const CreatePost = () => {
     });
 
     const [isSubmitEnable, setIsSubmitEnable] = useState(false);
+    const [imageBlob, setImageBlob] = useState(null);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            setImage(file);
-            setPreview(URL.createObjectURL(file));
+        if (!file) return;
+
+        setImage(file);
+        setPreview(URL.createObjectURL(file));
+
+        if (file.size <= 100 * 1024) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageBlob(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            resizeImage(file, 100 * 1024, (compressedBase64) => {
+                setImageBlob(compressedBase64);
+            });
         }
     };
 
+    const resizeImage = (file, maxSize, callback) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
 
+                const scaleFactor = Math.sqrt((file.size / maxSize));
+                width = width / scaleFactor;
+                height = height / scaleFactor;
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                canvas.toBlob(
+                    (blob) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            callback(reader.result);
+                        };
+                        reader.readAsDataURL(blob);
+                    },
+                    'image/jpeg',
+                    0.7
+                );
+            };
+        };
+    };
 
     const handlePost = () => {
         const postData = {
             title,
             description: desc,
-            image,
+            image: imageBlob,
         };
         if (!auth) {
             setOpenAlert((pre) => ({ ...pre, open: true, message: "Please loging with your account!" }));
@@ -119,7 +165,7 @@ const CreatePost = () => {
                                 onChange={(e) => setTitle(e.target.value)}
                             />
 
-                            <Box display="flex" flexDirection="column" gap={2}>
+                            <Box display="flex" flexDirection="column" gap={2} mt={1}>
                                 <ImageBox onClick={() => fileInputRef.current.click()}>
                                     {preview ? (<ImageTag src={preview} alt="Preview" />
                                     ) : (
