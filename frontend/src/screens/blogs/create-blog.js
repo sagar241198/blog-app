@@ -107,7 +107,7 @@ const CreatePost = () => {
                     if (data.status == 200) {
                         setOpenAlert((pre) => ({ ...pre, open: true, message: "Post Added successfully!" }));
                         setTimeout(() => {
-                            navigate('/blogs');
+                            navigate('/blogs', { state: {} });
                         }, 2000);
                     }
                 })
