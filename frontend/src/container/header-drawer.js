@@ -39,7 +39,7 @@ const Sidebar = ({
         setActiveOption(window.location.pathname)
     }, [window.location])
     const userLogout = () => {
-        sessionStorage.removeItem('loggedInUser');
+        sessionStorage.clear();
         setAuth(null);
         navigate('/login');
     }
@@ -71,7 +71,7 @@ const Sidebar = ({
                     </ListItem>
                     <ListItem button
                         sx={{ background: activeOption == "/blogs" ? "lightgray" : "none" }}
-                        onClick={() => handleNavigation('/blogs',null)}>
+                        onClick={() => handleNavigation('/blogs', null)}>
                         <ListItemIcon><SourceSharpIcon /></ListItemIcon>
                         <ListItemText primary="Blogs" />
                     </ListItem>
