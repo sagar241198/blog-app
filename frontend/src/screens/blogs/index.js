@@ -48,6 +48,7 @@ export default function BlogPage() {
 
     useEffect(() => {
 
+        setAllPost([]);
         let url = 'posts'
         if (userId) {
             url = 'post-by-user' + `/${userId}`
