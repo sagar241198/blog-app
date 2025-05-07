@@ -78,7 +78,7 @@ function ResponsiveAppBar() {
                             {pages.map((page) => (
                                 <Button
                                     key={page}
-                                    onClick={() => handleNavigation(page.url)}
+                                    onClick={() => handleNavigation(page.url, { state: {} })}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
                                     {page.lable}

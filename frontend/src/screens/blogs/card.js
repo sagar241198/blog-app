@@ -113,6 +113,7 @@ export default function BlogCard({
 
                 sx={{
                     maxWidth: '400px',
+                    minWidth:'350px',
                     boxShadow: 4,
                     transition: "0.3s",
                     "&:hover": {
