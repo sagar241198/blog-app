@@ -28,10 +28,6 @@ const pages = [
         lable: "All Blogs",
         url: '/blogs'
     },
-    {
-        lable: "Your Blog",
-        url: '/your-blogs'
-    }
 ]
 
 
@@ -84,6 +80,15 @@ function ResponsiveAppBar() {
                                     {page.lable}
                                 </Button>
                             ))}
+
+                            {auth && (
+                                <Button
+                                    onClick={() => handleNavigation('/your-blogs', { state: { userId: auth.id } })}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    Your Blog
+                                </Button>
+                            )}
                         </Box>
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                             {!auth ? (
