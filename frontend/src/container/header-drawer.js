@@ -71,16 +71,18 @@ const Sidebar = ({
                     </ListItem>
                     <ListItem button
                         sx={{ background: activeOption == "/blogs" ? "lightgray" : "none" }}
-                        onClick={() => handleNavigation('/blogs')}>
+                        onClick={() => handleNavigation('/blogs',null)}>
                         <ListItemIcon><SourceSharpIcon /></ListItemIcon>
                         <ListItemText primary="Blogs" />
                     </ListItem>
-                    <ListItem button
-                        sx={{ background: activeOption == "/your-blogs" ? "lightgray" : "none" }}
-                        onClick={() => handleNavigation('/your-blogs')}>
-                        <ListItemIcon><ListAltSharpIcon /></ListItemIcon>
-                        <ListItemText primary="Your Blogs" />
-                    </ListItem>
+                    {!auth && (
+                        <ListItem button
+                            sx={{ background: activeOption == "/your-blogs" ? "lightgray" : "none" }}
+                            onClick={() => handleNavigation('/your-blogs', { state: { userId: 1 } })}>
+                            <ListItemIcon><ListAltSharpIcon /></ListItemIcon>
+                            <ListItemText primary="Your Blogs" />
+                        </ListItem>
+                    )}
                     <ListItem button>
                         <ListItemIcon><ShareIcon /></ListItemIcon>
                         <ListItemText primary="Share" />

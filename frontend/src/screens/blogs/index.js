@@ -19,7 +19,7 @@ import { useAuthContext } from "../../context/auth";
 import AlertSnackbar from "../../components/generic/alert";
 
 import EmptyPostIcon from '../../assets/images/empty-post.avif'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 export default function BlogPage() {
@@ -36,7 +36,9 @@ export default function BlogPage() {
         message: '',
         severity: "success"
     });
+    const location = useLocation();
 
+    const { userId = null } = location.state;
 
     const toggleDrawer = (open) => () => {
         setDrawerOpen(open);
@@ -45,7 +47,12 @@ export default function BlogPage() {
 
 
     useEffect(() => {
-        axios.get(BACKEND_URl + 'posts')
+
+        let url = 'post'
+        if (userId) {
+            url = 'post-by-user' + `/${userId}`
+        }
+        axios.get(BACKEND_URl + url)
             .then((data) => {
                 if (data.status == 200) {
                     const formatedData = data.data.map((post) => ({ ...post, date: "April 20, 2025" }))

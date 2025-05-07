@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-    Card,
     CardContent,
     Typography,
     TextField,
     Button,
     Box,
-    Avatar,
-    Divider,
     IconButton
 } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';

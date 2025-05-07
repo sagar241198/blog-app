@@ -46,9 +46,9 @@ function ResponsiveAppBar() {
         setOpenMenu(!openMenu);
     };
 
-    const handleNavigation = (url) => {
+    const handleNavigation = (url, state) => {
         setActiveOption(url);
-        navigate(url);
+        navigate(url, state);
         setOpenMenu(false);
 
     }
