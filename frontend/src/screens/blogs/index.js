@@ -19,6 +19,7 @@ import { useAuthContext } from "../../context/auth";
 import AlertSnackbar from "../../components/generic/alert";
 
 import EmptyPostIcon from '../../assets/images/empty-post.avif'
+import { useNavigate } from "react-router-dom";
 
 
 export default function BlogPage() {
@@ -28,9 +29,8 @@ export default function BlogPage() {
     const { auth } = useAuthContext();
     const [allCommentsLikes, setAllCommentsLikes] = useState([]);
     const [allPotsLikes, setAllPostsLikes] = useState([]);
-
     const [allComments, setAllComments] = useState([]);
-
+    const navigate = useNavigate();
     const [openAlert, setOpenAlert] = useState({
         open: false,
         message: '',
@@ -144,7 +144,7 @@ export default function BlogPage() {
                                 variant="contained"
                                 startIcon={<AddCircleIcon />}
                                 sx={{ borderRadius: 50, backgroundColor: "#1976d2" }}
-                                onClick={toggleDrawer(true)}
+                                onClick={() => navigate('/add-post')}
                             >
                                 Create Blog
                             </Button>
@@ -171,14 +171,14 @@ export default function BlogPage() {
                             </div>))}
                         </Grid>
                         {allPost.length == 0 && (
-                            <div style={{minHeight:'400px'}}>
+                            <div style={{ minHeight: '400px' }}>
                                 <img src={EmptyPostIcon} alt="no blogs!" width={'100%'} height={'100%'} />
                                 <Typography>No Blogs avialabe</Typography>
                             </div>
                         )}
                     </Box>
                 </Container>
-                {drawerOpen && (
+                {/* {drawerOpen && (
                     <BlogDrawer
                         open={drawerOpen}
                         onClose={toggleDrawer(false)}
@@ -187,7 +187,7 @@ export default function BlogPage() {
                         handleSave={() => handleSave()}
 
                     />
-                )}
+                )} */}
 
 
             </Box>
