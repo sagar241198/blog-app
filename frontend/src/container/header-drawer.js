@@ -71,7 +71,7 @@ const Sidebar = ({
                     </ListItem>
                     <ListItem button
                         sx={{ background: activeOption == "/blogs" ? "lightgray" : "none" }}
-                        onClick={() => handleNavigation('/blogs', null)}>
+                        onClick={() => handleNavigation('/blogs', { state: {} })}>
                         <ListItemIcon><SourceSharpIcon /></ListItemIcon>
                         <ListItemText primary="Blogs" />
                     </ListItem>
