@@ -47,7 +47,6 @@ export default function BlogPage() {
 
 
     useEffect(() => {
-
         setAllPost([]);
         let url = 'posts'
         if (userId) {
@@ -61,25 +60,8 @@ export default function BlogPage() {
                 }
             })
             .catch((err) => console.log('err---->', err));
-    }, [drawerOpen]);
+    }, [userId]);
 
-    const handleSave = () => {
-        if (!auth) {
-            setOpenAlert((pre) => ({ ...pre, open: true, message: "Please loging with your account!" }));
-            return;
-        } else {
-            axios.post(BACKEND_URl + 'add-post', { ...newPost, user: auth.id })
-                .then((data) => {
-                    if (data.status == 200) {
-                        setOpenAlert((pre) => ({ ...pre, open: true, message: "Post Added successfully!" }));
-                        setDrawerOpen(false);
-                    }
-                })
-                .catch((e) => {
-                    setOpenAlert((pre => ({ ...pre, open: true, message: e.response.data.message, severity: 'error' })));
-                });
-        }
-    }
 
     const getAlltheCommenst = (() => {
         axios.get(BACKEND_URl + `comments`).then((data) => {
@@ -117,7 +99,6 @@ export default function BlogPage() {
             .then((data) => {
                 if (data.status == 200) {
                     setOpenAlert((pre) => ({ ...pre, open: true, message: "You Liked the Post!" }));
-                    setDrawerOpen(false);
                     getAllthePostLikes();
                 }
             })
@@ -186,17 +167,6 @@ export default function BlogPage() {
                         )}
                     </Box>
                 </Container>
-                {/* {drawerOpen && (
-                    <BlogDrawer
-                        open={drawerOpen}
-                        onClose={toggleDrawer(false)}
-                        newPost={newPost}
-                        setNewPost={setNewPost}
-                        handleSave={() => handleSave()}
-
-                    />
-                )} */}
-
 
             </Box>
             <AlertSnackbar openAlert={openAlert} setOpen={setOpenAlert} />

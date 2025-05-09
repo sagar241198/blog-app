@@ -25,7 +25,7 @@ import { useProgress } from "../../context/progress";
 
 export default function LoginPage() {
 
-    const [fields, setFields] = React.useState({ email: 'sagar@gmail.com', password: 'sagar@123' });
+    const [fields, setFields] = React.useState({ email: '', password: ''});
     const { setAuth } = useAuthContext();
     const { setProgress } = useProgress();
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
         setProgress(true);
         axios.post(BACKEND_URl + 'login', fields).then(data => {
-            if (data.status === 200 && data.data) {
+            if (data?.status === 200 && data?.data) {
                 setOpenAlert((pre => ({ ...pre, open: true, message: 'login success', severity: 'success' })));
                 setAuth(data.data);
                 sessionStorage.setItem('loggedInUser', JSON.stringify(data.data));

@@ -12,11 +12,14 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box, Paper, Stack, TextField, } from '@mui/material';
-import { Send } from '@mui/icons-material';
+import { Comment, Send } from '@mui/icons-material';
 import axios from 'axios';
 import { BACKEND_URl } from '../../utils/evironment';
 import { useAuthContext } from '../../context/auth';
 import AlertSnackbar from '../../components/generic/alert';
+
+import PhotoSizeSelectSmallIcon from '@mui/icons-material/PhotoSizeSelectSmall';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -57,10 +60,10 @@ export default function BlogCard({
 }) {
     const [expanded, setExpanded] = React.useState(false);
     const [commentContent, setCommentContent] = React.useState('')
-
     const [comments, setAllComments] = React.useState([]);
     const { auth } = useAuthContext();
     const [postLikedByThisUser, setPostLikedByThisUser] = React.useState(0);
+    const navigate = useNavigate();
 
 
     const handleExpandClick = () => {
@@ -101,11 +104,14 @@ export default function BlogCard({
     }, [commentsOfPost]);
 
     React.useEffect(() => {
-
+        if (!user) return
         let liked = allPotsLikes.filter((pl) => pl.userId === user.id).length;
         setPostLikedByThisUser(liked)
+    }, [allPotsLikes, user])
 
-    }, [allPotsLikes])
+    const viewPost = (id) => {
+        navigate(`/view-post/${id}`)
+    }
 
     return (
         <>
@@ -113,7 +119,7 @@ export default function BlogCard({
 
                 sx={{
                     maxWidth: '400px',
-                    minWidth:'350px',
+                    minWidth: '310px',
                     boxShadow: 4,
                     transition: "0.3s",
                     "&:hover": {
@@ -136,20 +142,32 @@ export default function BlogCard({
                         </Typography>
                     </Box>
                 </Box>
-                <Typography gutterBottom variant="h5" component="div" fontSize={14} textAlign='left' sx={{ padding: '0px 5px' }}>
-                    {data.title}
-                </Typography>
+                <Box display='flex' justifyContent='space-between'>
+                    <Typography
+                        gutterBottom variant="h5"
+                        component="div"
+                        fontSize={14} textAlign='left'
+                        sx={{ padding: '0px 5px', marginLeft: '20px' }}>
+                        {data.title}
+                    </Typography>
+
+                    <IconButton sx={{ padding: "0px 5px" }} onClick={() => viewPost(data.id)}>
+                        <PhotoSizeSelectSmallIcon />
+                    </IconButton>
+                </Box>
+
                 <Box sx={{ width: '100%' }}>
                     <CardMedia
                         component="img"
                         height="194"
                         image={data.image}
                         alt="Paella dish"
+                        onClick={() => viewPost(data.id)}
                     />
                 </Box>
 
                 <CardContent>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left' }}>
                         {data.description.slice(0, 50) + '.... see more'}
                     </Typography>
                 </CardContent>
@@ -162,8 +180,9 @@ export default function BlogCard({
                             fontSize: '16px'
                         }} />
                     </IconButton>
-                    <IconButton aria-label="share">
-                        <Typography variant="body2">{commentsOfPost.length} Comments</Typography>
+
+                    <IconButton size="small" disabled>
+                        {commentsOfPost.length} <Comment fontSize="small" />
                     </IconButton>
 
                     <ExpandMore
@@ -220,6 +239,7 @@ export default function BlogCard({
                         />
                         <IconButton color="primary"
                             onClick={() => handleAddComment(data)}
+                            disabled={!user}
                         >
                             <Send />
                         </IconButton>

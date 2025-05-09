@@ -206,7 +206,7 @@ const CreatePost = () => {
                                 fullWidth
                                 sx={{ mt: 3, py: 1.5, borderRadius: 3 }}
                                 onClick={() => handlePost()}
-                                disabled={!isSubmitEnable}
+                                disabled={!isSubmitEnable || !auth}
                             >
                                 Post Blog
                             </Button>

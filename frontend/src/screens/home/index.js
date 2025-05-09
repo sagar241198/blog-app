@@ -16,34 +16,46 @@ import {
 import { Comment as CommentIcon, Edit as EditIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
+import SpringBootImage from '../../assets/docs-images/spring-boor.jpg'
+import MuiImage from '../../assets/docs-images/mui.webp'
+import NodeImage from '../../assets/docs-images/node-js.png'
+import ReactImage from '../../assets/docs-images/react-js.svg'
+
+
+
+
 const dummyBlogs = [
     {
         title: "Spring Boot with React",
         excerpt: "Learn how to integrate Spring Boot with React for seamless backend-frontend communication.",
-        image: "https://miro.medium.com/v2/resize:fit:1200/1*o5FmjKTPdJTbhGE2MIjo6w.jpeg",
+        image: SpringBootImage,
         author: "John Doe",
         comments: 4,
+        url: 'https://docs.spring.io/spring-boot/index.html'
     },
     {
         title: "Mastering MUI in React",
         excerpt: "Upgrade your UI with Material-UI components. Responsive, fast and beautiful.",
-        image: "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl27lut6l48ceoa33rutc.jpg",
+        image: MuiImage,
         author: "Jane Smith",
         comments: 2,
+        url: "https://mui.com/material-ui/getting-started/"
     },
     {
         title: "Getting Started with Node.js",
         excerpt: "A beginner's guide to building scalable backend applications with Node.js and Express.",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1200px-Node.js_logo.svg.png",
+        image: NodeImage,
         author: "Michael Green",
         comments: 5,
+        url: "https://nodejs.org/docs/latest/api/"
     },
     {
         title: "Advanced React Patterns",
         excerpt: "Explore render props, higher-order components, and custom hooks to write better React code.",
-        image: "https://www.patterns.dev/img/reactjs/react-logo@3x.svg",
+        image: ReactImage,
         author: "Emily Clark",
         comments: 6,
+        url: "https://react.dev/learn"
     },
 ];
 
@@ -52,6 +64,10 @@ const dummyBlogs = [
 export default function HomePage() {
 
     const navigate = useNavigate();
+
+    const goToDocs = (link) => {
+        window.location.href = link;
+    }
 
 
     return (
@@ -103,6 +119,7 @@ export default function HomePage() {
                                     display: "flex",
                                     flexDirection: "column",
                                     boxShadow: 4,
+                                    marginTop: 1,
                                     transition: "0.3s",
                                     "&:hover": {
                                         transform: "translateY(-5px)",
@@ -110,7 +127,7 @@ export default function HomePage() {
                                     },
                                 }}
                             >
-                                <CardMedia component="img" height="200" image={blog.image} />
+                                <CardMedia component="img" height="200" image={blog.image} onClick={() => goToDocs(blog.url)} />
                                 <CardContent sx={{ flexGrow: 1 }}>
                                     <Typography variant="h6" gutterBottom>
                                         {blog.title}
