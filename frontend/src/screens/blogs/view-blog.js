@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     Grid,
     Typography,
@@ -20,10 +20,13 @@ import { Comment, Send } from '@mui/icons-material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { isUserLoggedIn } from './utils';
 import AlertSnackbar from '../../components/generic/alert';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+
 
 
 const ViewBlog = () => {
     const { postId } = useParams();
+    const navigate= useNavigate();
     const [post, setPost] = useState(null);
     const { auth } = useAuthContext();
     const [allCommentsLikes, setAllCommentsLikes] = useState([]);
@@ -158,6 +161,11 @@ const ViewBlog = () => {
     return (
         <>
             <Box p={2} mt={8} minHeight={"76vh"}>
+                <Box textAlign='left'>
+                    <IconButton onClick={() => navigate(-1)} sx={{fontSize:'14px'}}>
+                        <KeyboardBackspaceIcon /> Back
+                    </IconButton>
+                </Box>
                 <Grid container spacing={3}>
                     {post && (
                         <>
@@ -174,7 +182,7 @@ const ViewBlog = () => {
 
                                     <Box textAlign={'left'}>
                                         <IconButton aria-label="add to favorites"
-                                            sx={{ fontSize: '14px', padding:'0px' }}
+                                            sx={{ fontSize: '14px', padding: '0px' }}
                                             onDoubleClick={() => likePost()}
                                         >
                                             {allPotsLikes.length}  <FavoriteIcon
@@ -220,7 +228,7 @@ const ViewBlog = () => {
                                                             </Typography>
                                                             <IconButton aria-label="add to favorites"
                                                                 onClick={() => likeComments(cmt.id)}
-                                                                sx={{ fontSize: '14px',padding:'0px' }}>
+                                                                sx={{ fontSize: '14px', padding: '0px' }}>
                                                                 {commentCounts} <FavoriteIcon sx={{
                                                                     color: likesByThisUser > 0 ? "#e53935" : "gray", ml: "auto", fontSize: '16px'
                                                                 }} />
